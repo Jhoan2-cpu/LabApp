@@ -1,34 +1,545 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hill Climbing y Algoritmos Genéticos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-    <header class="bg-primary text-white text-center py-3">
-        <h1>Hill Climbing y Algoritmos Genéticos</h1>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- Preloader -->
+    <div id="preloader">
+      <div>
+        <div class="spinner-border" role="status"></div>
+        <div class="mt-3 text-white fw-bold fs-5">Cargando...</div>
+      </div>
+    </div>
+    <header class="header-pro text-white text-center">
+      <h1 class="display-5 mb-1">
+        <i class="fas fa-mountain"></i> Hill Climbing y Algoritmos Genéticos
+      </h1>
+      <p class="lead mb-0">Explorando algoritmos de optimización y evolución</p>
     </header>
     <main class="container my-5">
-        <section id="hill-climbing" class="mb-5">
-            <h2 class="text-center">Organigrama: Hill Climbing</h2>
-            <div id="organigrama" class="d-flex flex-column align-items-center mt-4">
-                <!-- Aquí irá el organigrama -->
+      <section id="hill-climbing" class="mb-5">
+        <div id="organigrama" class="d-flex">
+          <!-- Organigrama mejorado -->
+          <div
+            class="organigrama-flow d-flex flex-column align-items-center item-main-org"
+          >
+            <div class="card shadow-lg" style="margin-bottom: 70px;">
+              <div class="card-header bg-info text-white">
+                <i class="fas fa-mountain me-2"></i>¿Qué es Hill Climbing?
+              </div>
+              <div class="card-body text-start">
+                <p>
+                  <i class="fas fa-arrow-circle-right text-primary"></i>
+                  <strong>Hill Climbing</strong> es un algoritmo de búsqueda
+                  local utilizado para resolver problemas de optimización.<br />
+                  <br />
+                  <i class="fas fa-search-location text-success"></i>
+                  Parte de una solución inicial y, en cada paso, explora
+                  soluciones vecinas buscando una mejora.<br />
+                  <i class="fas fa-arrow-up text-warning"></i>
+                  Si encuentra una solución mejor, se mueve hacia ella y repite
+                  el proceso.<br />
+                  <i class="fas fa-flag-checkered text-success"></i>
+                  El algoritmo termina cuando no se pueden encontrar soluciones
+                  vecinas que mejoren la actual, alcanzando así un óptimo
+                  local.<br />
+                  <br />
+                  <span class="text-secondary"
+                    ><i class="fas fa-lightbulb"></i> Es simple, eficiente y
+                    ampliamente utilizado en problemas donde la búsqueda
+                    exhaustiva no es viable.</span
+                  >
+                </p>
+              </div>
             </div>
-        </section>
-        <section class="text-center mt-5">
-            <a href="index.html" class="btn btn-primary">
-                <i class="fas fa-arrow-left"></i> Volver al Inicio
-            </a>
-        </section>
+            <div class="org-step mb-2">
+              <div
+                class="btn btn-primary element-org shadow"
+                data-bs-toggle="popover"
+                data-bs-content="Este es el punto de inicio del algoritmo."
+              >
+                Inicio
+              </div>
+            </div>
+            <div class="org-arrow mb-2">
+              <span class="arrow-down"></span>
+            </div>
+            <div class="org-step mb-2">
+              <div
+                class="btn btn-secondary element-org shadow"
+                data-bs-toggle="popover"
+                data-bs-content="Se genera una solución inicial aleatoria."
+              >
+                Generar solución inicial
+              </div>
+            </div>
+            <div class="org-arrow mb-2">
+              <span class="arrow-down"></span>
+            </div>
+            <div class="org-step mb-2">
+              <div
+                class="btn btn-secondary element-org shadow"
+                data-bs-toggle="popover"
+                data-bs-content="Se evalúa la calidad de la solución actual."
+              >
+                Evaluar solución
+              </div>
+            </div>
+            <div class="org-arrow mb-2">
+              <span class="arrow-down"></span>
+            </div>
+            <div class="org-step mb-2">
+              <div
+                class="btn btn-secondary element-org shadow"
+                data-bs-toggle="popover"
+                data-bs-content="Se selecciona un vecino que mejora la solución actual."
+              >
+                Seleccionar vecino mejorado
+              </div>
+            </div>
+            <div class="org-arrow mb-2">
+              <span class="arrow-down"></span>
+            </div>
+            <div class="org-step mb-2">
+              <div
+                class="btn btn-secondary element-org shadow"
+                data-bs-toggle="popover"
+                data-bs-content="Se actualiza la solución actual con el vecino seleccionado."
+              >
+                Actualizar solución actual
+              </div>
+            </div>
+            <div class="org-arrow mb-2">
+              <span class="arrow-down"></span>
+            </div>
+            <div class="org-step mb-2">
+              <div
+                class="btn btn-success element-org shadow"
+                data-bs-toggle="popover"
+                data-bs-content="Si la solución es óptima, el algoritmo finaliza."
+              >
+                ¿Es óptimo? Finalizar
+              </div>
+            </div>
+            <!-- Ramas de decisión -->
+            <div
+              class="org-branches d-flex flex-row justify-content-center align-items-start mb-2"
+              style="width: 100%; position: relative"
+            >
+              <!-- Rama SÍ -->
+              <div
+                class="d-flex flex-column align-items-center"
+                style="width: 50%"
+              >
+                <div class="org-branch-arrow">
+                  <span class="arrow-diag-right"></span>
+                </div>
+                <div class="org-step mt-2">
+                  <div
+                    class="btn btn-outline-success element-org shadow"
+                    data-bs-toggle="popover"
+                    data-bs-content="El algoritmo finaliza porque se encontró una solución óptima."
+                  >
+                    Solución Óptima <i class="fas fa-flag-checkered"></i>
+                  </div>
+                </div>
+              </div>
+              <!-- Rama NO -->
+              <div
+                class="d-flex flex-column align-items-center"
+                style="width: 50%"
+              >
+                <div class="org-branch-arrow">
+                  <span class="arrow-diag-left"></span>
+                </div>
+                <div class="org-step mt-2">
+                  <div
+                    id="volver-evaluar-btn"
+                    class="btn btn-outline-secondary element-org shadow"
+                    data-bs-toggle="popover"
+                    data-bs-content="No es óptimo, vuelve a evaluar la solución."
+                  >
+                    Volver a Evaluar Solución
+                  </div>
+                </div>
+                <!-- Flecha hacia "Evaluar solución" -->
+                <div class="org-arrow mt-2">
+                  <span class="arrow-up"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center item-main-org example-item">
+            <div class="card shadow-lg mb-4">
+              <div class="card-header bg-dark text-white">
+                <i class="fas fa-book-reader me-2"></i>Enunciado 2 (Optimización
+                del Horario de Estudio)
+              </div>
+              <div class="card-body text-start">
+                <p>
+                  Un estudiante tiene disponibles
+                  <strong>10 franjas horarias</strong> libres durante la semana,
+                  cada una con una duración y un nivel estimado de productividad
+                  (del 1 al 10). El objetivo es seleccionar las mejores franjas
+                  para
+                  <strong>maximizar su productividad semanal total</strong>,
+                  pero con una restricción:
+                  <span class="text-danger fw-bold"
+                    >no debe estudiar más de 15 horas en total</span
+                  >.<br />
+                  <br />
+                  <i class="fas fa-arrow-circle-right text-success"></i>
+                  <strong>Implementa un algoritmo de hill climbing</strong> que,
+                  partiendo de una selección aleatoria de franjas horarias,
+                  busque mejorar la productividad total sin superar el límite de
+                  horas.<br />
+                  <i class="fas fa-arrow-circle-right text-success"></i> Usa
+                  <span class="text-primary">Pandas</span> para representar las
+                  franjas y <span class="text-primary">NumPy</span> para mutar
+                  la solución.
+                </p>
+              </div>
+            </div>
+            <div class="row g-4">
+              <div class="col-lg-12">
+                <div class="card h-100">
+                  <div class="card-header bg-black text-white">
+                    <i class="fab fa-python me-2"></i>Solución en Python
+                  </div>
+                  <div class="card-body p-0">
+                    <pre
+                      class="bg-dark text-white text-start rounded m-0"
+                      style="
+                        font-size: 0.95rem;
+                        line-height: 1.4;
+                        overflow-x: auto;
+                      "
+                    >
+<code class="language-python">import pandas as pd
+import numpy as np
+
+# Paso 1: Generar franjas horarias aleatorias
+np.random.seed(42)
+data = {
+    'Duracion': np.random.randint(1, 4, size=10),        # 1 a 3 horas
+    'Productividad': np.random.randint(1, 11, size=10)   # 1 a 10
+}
+franjas = pd.DataFrame(data)
+max_horas = 15
+
+# Paso 2: Evaluar una solución
+def evaluar(sol, franjas):
+    horas = np.sum(franjas['Duracion'] * sol)
+    if horas > max_horas:
+        return -1
+    return np.sum(franjas['Productividad'] * sol)
+
+# Paso 3: Inicializar solución válida
+def inicializar_solucion(n):
+    while True:
+        sol = np.random.randint(0, 2, size=n)
+        if np.sum(franjas['Duracion'] * sol) <= max_horas:
+            return sol
+
+# Paso 4: Mutar solución
+def mutar(sol):
+    nueva = sol.copy()
+    idx = np.random.randint(len(sol))
+    nueva[idx] = 1 - nueva[idx]
+    return nueva
+
+# Paso 5: Hill Climbing
+def hill_climbing(franjas, max_iter=1000):
+    sol = inicializar_solucion(len(franjas))
+    prod = evaluar(sol, franjas)
+    for _ in range(max_iter):
+        nueva = mutar(sol)
+        prod_nueva = evaluar(nueva, franjas)
+        if prod_nueva > prod:
+            sol, prod = nueva, prod_nueva
+    return sol, prod
+
+# Ejecutar
+sol_opt, prod_opt = hill_climbing(franjas)
+print("Franjas horarias:\n", franjas)
+print("Solución óptima:", sol_opt)
+print("Productividad total:", prod_opt)
+print("Total horas:", np.sum(franjas['Duracion'] * sol_opt))
+</code>
+                    </pre>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="card h-100">
+                  <div class="card-header bg-black text-white">
+                    <i class="fas fa-terminal me-2"></i>Resultado de la
+                    Ejecución
+                  </div>
+                  <div class="card-body p-0">
+                    <pre
+                      class="bg-dark text-success text-start rounded m-0"
+                      style="
+                        font-size: 0.95rem;
+                        line-height: 1.4;
+                        overflow-x: auto;
+                      "
+                    >
+                        <code># Franjas horarias:
+                        Duracion  Productividad
+                        0         3              7
+                        1         1              4
+                        2         3              8
+                        3         3              5
+                        4         2              7
+                        5         1              3
+                        6         1              7
+                        7         2              10
+                        8         2              6
+                        9         2              8
+
+                        Solución óptima: [1 1 0 0 1 1 1 1 0 1]
+                        Productividad total: 39
+                        Total horas: 12
+                        </code>
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card mt-4 shadow-sm">
+              <div class="card-header bg-success text-white">
+                <i class="fas fa-lightbulb me-2"></i>Explicación del Proceso
+              </div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <i class="fas fa-random text-primary me-2"></i>
+                    <strong>Generación de franjas:</strong> Se crean 10 franjas
+                    horarias con duración y productividad aleatoria.
+                  </li>
+                  <li class="list-group-item">
+                    <i class="fas fa-play-circle text-secondary me-2"></i>
+                    <strong>Solución inicial:</strong> Se selecciona
+                    aleatoriamente un subconjunto de franjas que no supera las
+                    15 horas.
+                  </li>
+                  <li class="list-group-item">
+                    <i class="fas fa-arrow-up text-warning me-2"></i>
+                    <strong>Mutación:</strong> Se prueba cambiar una franja (de
+                    seleccionada a no seleccionada o viceversa) para buscar una
+                    mejor productividad.
+                  </li>
+                  <li class="list-group-item">
+                    <i class="fas fa-trophy text-success me-2"></i>
+                    <strong>Mejora iterativa:</strong> Si la nueva solución es
+                    mejor y válida, se acepta. El proceso se repite hasta no
+                    encontrar mejoras.
+                  </li>
+                  <li class="list-group-item">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Resultado:</strong> Se obtiene la combinación de
+                    franjas que maximiza la productividad sin exceder el límite
+                    de horas.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="text-center mt-5">
+        <a href="index.html" class="btn btn-lg btn-gradient-green px-4 py-2 fw-semibold shadow-sm rounded-pill d-inline-flex align-items-center gap-2">
+          <i class="fas fa-arrow-left"></i>
+          Volver al Inicio
+        </a>
+      </section>
     </main>
     <footer class="bg-primary text-white text-center py-3">
-        <p>Creado por [Tu Nombre] - 2025</p>
+      <p>Creado por [Tu Nombre] - 2025</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/script.js"></script>
-</body>
+    <script>
+      window.addEventListener("load", function () {
+        const preloader = document.getElementById("preloader");
+        preloader.classList.add("hide");
+        setTimeout(() => (preloader.style.display = "none"), 600);
+
+        // Inicializar popovers de Bootstrap para los elementos del organigrama
+        const popoverTriggerList = document.querySelectorAll(
+          '[data-bs-toggle="popover"]'
+        );
+        popoverTriggerList.forEach((el) => {
+          new bootstrap.Popover(el, { trigger: "hover focus" });
+        });
+
+        // Animación al volver a evaluar solución
+        const volverBtn = document.getElementById("volver-evaluar-btn");
+        // Busca el botón "Evaluar solución" por su texto
+        const evaluarBtn = Array.from(
+          document.querySelectorAll(".element-org")
+        ).find((el) => el.textContent.trim() === "Evaluar solución");
+        if (volverBtn && evaluarBtn) {
+          volverBtn.addEventListener("click", function () {
+            evaluarBtn.classList.add("vibrate-anim");
+            setTimeout(() => {
+              evaluarBtn.classList.remove("vibrate-anim");
+            }, 900);
+            evaluarBtn.scrollIntoView({ behavior: "smooth", block: "center" });
+          });
+        }
+      });
+    </script>
+    <style>
+      /* Organigrama vertical elegante */
+      .organigrama-flow {
+        position: relative;
+        padding: 2rem 0;
+      }
+      .org-step .btn {
+        min-width: 260px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 30px;
+        padding: 0.75rem 1.5rem;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+      }
+      .org-arrow {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 32px;
+      }
+      .arrow-down {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-left: 18px solid transparent;
+        border-right: 18px solid transparent;
+        border-top: 22px solid #067275;
+        margin-top: -6px;
+        filter: drop-shadow(0 2px 4px rgba(6, 114, 117, 0.12));
+      }
+      @media (max-width: 600px) {
+        .org-step .btn {
+          min-width: 170px;
+          font-size: 1rem;
+          padding: 0.5rem 1rem;
+        }
+        .organigrama-flow {
+          padding: 1rem 0;
+        }
+      }
+      .org-branches {
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+        width: 100%;
+        max-width: 600px;
+        position: relative;
+      }
+      .org-branch-arrow {
+        height: 32px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+      }
+      .arrow-diag-right {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-right: 4px solid #198754;
+        border-bottom: 4px solid #198754;
+        border-radius: 0 0 12px 0;
+        margin-left: 40px;
+        transform: rotate(10deg);
+      }
+      .arrow-diag-left {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-left: 4px solid #6c757d;
+        border-bottom: 4px solid #6c757d;
+        border-radius: 0 0 0 12px;
+        margin-right: 40px;
+        transform: rotate(-10deg);
+      }
+      .arrow-up {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-left: 18px solid transparent;
+        border-right: 18px solid transparent;
+        border-bottom: 22px solid #6c757d;
+        margin-top: -6px;
+        filter: drop-shadow(0 2px 4px rgba(108, 117, 125, 0.12));
+        transform: rotate(180deg);
+      }
+      .vibrate-anim {
+        animation: vibrate-float 0.9s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        box-shadow: 0 0 0 4px #ffe066, 0 2px 12px rgba(0, 0, 0, 0.07);
+        background: #fffbe6 !important;
+        color: #222 !important;
+        border-color: #ffe066 !important;
+      }
+      @keyframes vibrate-float {
+        0% {
+          transform: translateY(0);
+        }
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+          transform: translateY(-4px);
+        }
+        20%,
+        40%,
+        60%,
+        80% {
+          transform: translateY(4px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+      .btn-gradient-green {
+        background: linear-gradient(90deg, #067275 0%, #212925 100%);
+        color: #fff !important;
+        border: none;
+        transition: box-shadow 0.2s, transform 0.2s, background 0.3s;
+        box-shadow: 0 2px 12px rgba(6, 114, 117, 0.10);
+      }
+      .btn-gradient-green:hover,
+      .btn-gradient-green:focus {
+        background: linear-gradient(90deg, #292b2a 0%, #0d6669 100%);
+        color: #fff !important;
+        box-shadow: 0 4px 24px rgba(6, 114, 117, 0.18);
+        transform: translateY(-2px) scale(1.04);
+        text-decoration: none;
+      }
+    </style>
+    <!-- Highlight.js para resaltar código -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/monokai.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>
+      hljs.highlightAll();
+    </script>
+  </body>
 </html>
