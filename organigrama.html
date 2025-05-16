@@ -299,22 +299,21 @@ print("Total horas:", np.sum(franjas['Duracion'] * sol_opt))
                         overflow-x: auto;
                       "
                     >
-                        <code># Franjas horarias:
-                        Duracion  Productividad
-                        0         3              7
-                        1         1              4
-                        2         3              8
-                        3         3              5
-                        4         2              7
-                        5         1              3
-                        6         1              7
-                        7         2              10
-                        8         2              6
-                        9         2              8
-
-                        Solución óptima: [1 1 0 0 1 1 1 1 0 1]
-                        Productividad total: 39
-                        Total horas: 12
+                        <code>Franjas horarias:
+    Duracion  Productividad
+0         3              8
+1         1              5
+2         3              4
+3         3              8
+4         1              8
+5         1              3
+6         3              6
+7         2              5
+8         3              2
+9         3              8
+Solución óptima: [1 0 1 0 0 0 1 0 1 1]
+Productividad total: 28
+Total horas: 15
                         </code>
                     </pre>
                   </div>
@@ -360,6 +359,334 @@ print("Total horas:", np.sum(franjas['Duracion'] * sol_opt))
               </div>
             </div>
           </div>
+
+<!-- Enunciado 3 -->
+           <div class="text-center item-main-org example-item">
+            <div class="card shadow-lg mb-4">
+              <div class="card-header bg-dark text-white">
+                <i class="fas fa-book-reader me-2"></i>Enunciado 3 (Selección óptima de platos en el menú universitario):
+              </div>
+              <div class="card-body text-start">
+                <p>
+                  En la cafetería universitaria hay 8 platos diferentes. Cada plato tiene un precio, una cantidad de calorías y una puntuación de satisfacción (según encuestas de estudiantes). Un estudiante solo tiene S/20 para gastar por día y <strong>quiere obtener el máximo nivel de satisfacción sin pasarse del presupuesto ni consumir más de 1000 calorías.</strong>
+                  <br />
+                  <i class="fas fa-arrow-circle-right text-success"></i>
+                  Utiliza Pandas para representar el menú y NumPy para generar combinaciones de platos. Aplica hill climbing para encontrar la mejor combinación de 3 platos que maximicen la satisfacción bajo las restricciones indicadas.
+                </p>
+              </div>
+            </div>
+            <div class="row g-4">
+              <div class="col-lg-12">
+                <div class="card h-100">
+                  <div class="card-header bg-black text-white">
+                    <i class="fab fa-python me-2"></i>Solución en Python
+                  </div>
+                  <div class="card-body p-0">
+                    <pre
+                      class="bg-dark text-white text-start rounded m-0"
+                      style="
+                        font-size: 0.95rem;
+                        line-height: 1.4;
+                        overflow-x: auto;
+                      "
+                    >
+<code class="language-python">import pandas as pd
+import numpy as np
+
+# Menú de platos: nombre, precio, calorías, satisfacción
+menu = pd.DataFrame({
+    'Plato': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+    'Precio':      [5, 7, 4, 6, 3, 8, 2, 5],
+    'Calorias': [300, 450, 200, 350, 150, 500, 100, 250],
+    'Satisfaccion': [7, 9, 5, 8, 4, 10, 3, 6]
+})
+
+presupuesto = 20
+max_calorias = 1000
+num_platos = 3
+
+# Función de evaluación
+def evaluar(sol, menu):
+    if np.sum(sol) != num_platos:
+        return -1
+    total_precio = np.sum(menu['Precio'] * sol)
+    total_calorias = np.sum(menu['Calorias'] * sol)
+    if total_precio > presupuesto or total_calorias > max_calorias:
+        return -1
+    return np.sum(menu['Satisfaccion'] * sol)
+
+# Inicializar solución válida
+def inicializar_solucion(n):
+    while True:
+        sol = np.zeros(n, dtype=int)
+        idx = np.random.choice(n, num_platos, replace=False)
+        sol[idx] = 1
+        if (np.sum(menu['Precio'] * sol) <= presupuesto and
+            np.sum(menu['Calorias'] * sol) <= max_calorias):
+            return sol
+
+# Mutar solución (intercambia un plato seleccionado por uno no seleccionado)
+def mutar(sol):
+    seleccionados = np.where(sol == 1)[0]
+    no_seleccionados = np.where(sol == 0)[0]
+    if len(no_seleccionados) == 0:
+        return sol.copy()
+    nueva = sol.copy()
+    quitar = np.random.choice(seleccionados)
+    poner = np.random.choice(no_seleccionados)
+    nueva[quitar] = 0
+    nueva[poner] = 1
+    return nueva
+
+# Hill Climbing
+def hill_climbing(menu, max_iter=1000):
+    sol = inicializar_solucion(len(menu))
+    satis = evaluar(sol, menu)
+    for _ in range(max_iter):
+        nueva = mutar(sol)
+        satis_nueva = evaluar(nueva, menu)
+        if satis_nueva > satis:
+            sol, satis = nueva, satis_nueva
+    return sol, satis
+
+# Ejecutar
+sol_opt, satis_opt = hill_climbing(menu)
+print("Menú:\n", menu)
+print("Selección óptima:", sol_opt)
+print("Platos elegidos:", menu['Plato'][sol_opt == 1].values)
+print("Satisfacción total:", satis_opt)
+print("Total gastado:", np.sum(menu['Precio'] * sol_opt))
+print("Total calorías:", np.sum(menu['Calorias'] * sol_opt))
+</code>
+                    </pre>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="card h-100">
+                  <div class="card-header bg-black text-white">
+                    <i class="fas fa-terminal me-2"></i>Resultado de la
+                    Ejecución
+                  </div>
+                  <div class="card-body p-0">
+                    <pre
+                      class="bg-dark text-success text-start rounded m-0"
+                      style="
+                        font-size: 0.95rem;
+                        line-height: 1.4;
+                        overflow-x: auto;
+                      "
+                    >
+                        <code>Menú:
+   Plato  Precio  Calorias  Satisfaccion
+0     A       5       300             7
+1     B       7       450             9
+2     C       4       200             5
+3     D       6       350             8
+4     E       3       150             4
+5     F       8       500            10
+6     G       2       100             3
+7     H       5       250             6
+Selección óptima: [1 0 1 0 0 1 0 0]
+Platos elegidos: ['A' 'C' 'F']
+Satisfacción total: 22
+Total gastado: 17
+Total calorías: 1000
+                        </code>
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card mt-4 shadow-sm">
+              <div class="card-header bg-success text-white">
+                <i class="fas fa-lightbulb me-2"></i>Explicación del Proceso
+              </div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <i class="fas fa-utensils text-primary me-2"></i>
+                    <strong>Definición del menú:</strong> Se crea un menú con 8 platos, cada uno con su precio, calorías y nivel de satisfacción.
+                  </li>
+                  <li class="list-group-item">
+                    <i class="fas fa-play-circle text-secondary me-2"></i>
+                    <strong>Solución inicial:</strong> Se seleccionan aleatoriamente 3 platos que no superen el presupuesto ni las calorías máximas.
+                  </li>
+                  <li class="list-group-item">
+                    <i class="fas fa-random text-info me-2"></i>
+                    <strong>Mutación:</strong> Se intercambia un plato seleccionado por uno no seleccionado para explorar nuevas combinaciones.
+                  </li>
+                  <li class="list-group-item">
+                    <i class="fas fa-arrow-up text-warning me-2"></i>
+                    <strong>Evaluación:</strong> Se calcula la satisfacción total de la combinación, asegurando que cumpla las restricciones de precio y calorías.
+                  </li>
+                  <li class="list-group-item">
+                    <i class="fas fa-trophy text-success me-2"></i>
+                    <strong>Mejora iterativa:</strong> Si la nueva combinación es mejor y válida, se acepta. El proceso se repite hasta no encontrar mejoras.
+                  </li>
+                  <li class="list-group-item">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Resultado:</strong> Se obtiene la combinación de 3 platos que maximiza la satisfacción sin exceder el presupuesto ni las calorías.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+<!-- Enunciado 4 -->
+<div class="text-center item-main-org example-item">
+  <div class="card shadow-lg mb-4">
+    <div class="card-header bg-dark text-white">
+      <i class="fas fa-book-reader me-2"></i>Enunciado 4 (Elección de cursos electivos según afinidad y tiempo)
+    </div>
+    <div class="card-body text-start">
+      <p>
+        Un estudiante debe elegir <strong>3 de entre 10 cursos electivos posibles</strong>. Cada curso tiene una carga horaria semanal, un nivel de interés personal (del 1 al 10), y una calificación histórica promedio (como estimador de facilidad).<br>
+        <br>
+        <span class="text-danger fw-bold">El objetivo es encontrar una combinación de cursos que maximice el interés total del estudiante, siempre que la carga horaria combinada no exceda 12 horas semanales.</span><br>
+        <i class="fas fa-arrow-circle-right text-success"></i>
+        Usa <span class="text-primary">Pandas</span> para estructurar los datos de los cursos y <span class="text-primary">NumPy</span> para buscar combinaciones óptimas usando un enfoque de hill climbing.
+      </p>
+    </div>
+  </div>
+  <div class="row g-4">
+    <div class="col-lg-12">
+      <div class="card h-100">
+        <div class="card-header bg-black text-white">
+          <i class="fab fa-python me-2"></i>Solución en Python
+        </div>
+        <div class="card-body p-0">
+          <pre class="bg-dark text-white text-start rounded m-0" style="font-size: 0.95rem; line-height: 1.4; overflow-x: auto;">
+<code class="language-python">import pandas as pd
+import numpy as np
+
+# Datos de los cursos: nombre, horas, interés, calificación histórica
+cursos = pd.DataFrame({
+    'Curso': [f'Curso {i+1}' for i in range(10)],
+    'Horas': np.random.randint(2, 6, size=10),  # 2 a 5 horas
+    'Interes': np.random.randint(5, 11, size=10),  # 5 a 10
+    'Calificacion': np.round(np.random.uniform(12, 20, size=10), 1)  # 12 a 20
+})
+
+max_horas = 12
+num_elegir = 3
+
+def evaluar(sol, cursos):
+    if np.sum(sol) != num_elegir:
+        return -1
+    total_horas = np.sum(cursos['Horas'] * sol)
+    if total_horas > max_horas:
+        return -1
+    return np.sum(cursos['Interes'] * sol)
+
+def inicializar_solucion(n):
+    while True:
+        sol = np.zeros(n, dtype=int)
+        idx = np.random.choice(n, num_elegir, replace=False)
+        sol[idx] = 1
+        if np.sum(cursos['Horas'] * sol) <= max_horas:
+            return sol
+
+def mutar(sol):
+    seleccionados = np.where(sol == 1)[0]
+    no_seleccionados = np.where(sol == 0)[0]
+    if len(no_seleccionados) == 0:
+        return sol.copy()
+    nueva = sol.copy()
+    quitar = np.random.choice(seleccionados)
+    poner = np.random.choice(no_seleccionados)
+    nueva[quitar] = 0
+    nueva[poner] = 1
+    return nueva
+
+def hill_climbing(cursos, max_iter=1000):
+    sol = inicializar_solucion(len(cursos))
+    interes = evaluar(sol, cursos)
+    for _ in range(max_iter):
+        nueva = mutar(sol)
+        interes_nueva = evaluar(nueva, cursos)
+        if interes_nueva > interes:
+            sol, interes = nueva, interes_nueva
+    return sol, interes
+
+# Ejecutar
+sol_opt, interes_opt = hill_climbing(cursos)
+print("Cursos:\n", cursos)
+print("Selección óptima:", sol_opt)
+print("Cursos elegidos:", cursos['Curso'][sol_opt == 1].values)
+print("Interés total:", interes_opt)
+print("Total horas:", np.sum(cursos['Horas'] * sol_opt))
+print("Calificaciones:", cursos['Calificacion'][sol_opt == 1].values)
+</code>
+          </pre>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="card h-100">
+        <div class="card-header bg-black text-white">
+          <i class="fas fa-terminal me-2"></i>Resultado de la Ejecución
+        </div>
+        <div class="card-body p-0">
+          <pre class="bg-dark text-success text-start rounded m-0" style="font-size: 0.95rem; line-height: 1.4; overflow-x: auto;">
+<code>Cursos:
+       Curso  Horas  Interes  Calificacion
+0   Curso 1      3        5          16.9
+1   Curso 2      5       10          12.9
+2   Curso 3      4        6          14.8
+3   Curso 4      5        7          16.1
+4   Curso 5      5       10          19.0
+5   Curso 6      2       10          15.9
+6   Curso 7      3        5          17.6
+7   Curso 8      4        5          19.9
+8   Curso 9      2        9          13.1
+9  Curso 10      2        5          14.2
+Selección óptima: [0 1 0 0 1 1 0 0 0 0]
+Cursos elegidos: ['Curso 2' 'Curso 5' 'Curso 6']
+Interés total: 30
+Total horas: 12
+Calificaciones: [12.9 19.  15.9]
+</code>
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card mt-4 shadow-sm">
+    <div class="card-header bg-success text-white">
+      <i class="fas fa-lightbulb me-2"></i>Explicación del Proceso
+    </div>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <i class="fas fa-list text-primary me-2"></i>
+          <strong>Definición de cursos:</strong> Se generan 10 cursos con carga horaria, interés y calificación histórica.
+        </li>
+        <li class="list-group-item">
+          <i class="fas fa-play-circle text-secondary me-2"></i>
+          <strong>Solución inicial:</strong> Se seleccionan aleatoriamente 3 cursos que no superen las 12 horas semanales.
+        </li>
+        <li class="list-group-item">
+          <i class="fas fa-random text-info me-2"></i>
+          <strong>Mutación:</strong> Se intercambia un curso seleccionado por uno no seleccionado para explorar nuevas combinaciones.
+        </li>
+        <li class="list-group-item">
+          <i class="fas fa-arrow-up text-warning me-2"></i>
+          <strong>Evaluación:</strong> Se calcula el interés total de la combinación, asegurando que cumpla la restricción de horas.
+        </li>
+        <li class="list-group-item">
+          <i class="fas fa-trophy text-success me-2"></i>
+          <strong>Mejora iterativa:</strong> Si la nueva combinación es mejor y válida, se acepta. El proceso se repite hasta no encontrar mejoras.
+        </li>
+        <li class="list-group-item">
+          <i class="fas fa-check-circle text-success me-2"></i>
+          <strong>Resultado:</strong> Se obtiene la combinación de 3 cursos que maximiza el interés sin exceder las 12 horas semanales.
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
         </div>
       </section>
       <section class="text-center mt-5">
