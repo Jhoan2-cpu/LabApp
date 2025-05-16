@@ -142,3 +142,37 @@ footer {
   align-items: start;
   justify-content: start;
 }
+
+
+/* ...existing code... */
+
+/* Mejora responsive para bloques pre code */
+pre code,
+pre {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  pre,
+  pre code {
+    font-size: 0.92rem !important;
+    padding: 0.75rem 0.5rem !important;
+    border-radius: 0.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  pre,
+  pre code {
+    font-size: 0.85rem !important;
+    padding: 0.5rem 0.2rem !important;
+    border-radius: 0.3rem;
+  }
+}

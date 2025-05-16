@@ -14,4 +14,4 @@ Este proyecto incluye:
 2. Explora el contenido interactivo.
 
 ## Autor
-[Tu Nombre]
+[Armas-Cruz-]
