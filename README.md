@@ -14,4 +14,6 @@ Este proyecto incluye:
 2. Explora el contenido interactivo.
 
 ## Autor
-[Armas-Cruz-]
+[Angeles Osorio Denilson Fabrisio Código de Estudiante: 0201914060
+Cruz Castillo Jhoan Antoni Código de Estudiante: 0202114004
+Armas Solorzano Brando Código de estudiante: 0202114019]
